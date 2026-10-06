@@ -2,8 +2,6 @@ package ru.vsu.cs.OOP.zavalenkov_a_yu.g14.task1;
 
 public class PrettyJson {
 
-    public static void main(String[] args) {}
-    
     private final String space;
     private final String newLine;
 
@@ -33,44 +31,61 @@ public class PrettyJson {
                 res.append(str);
                 if (notInString) {
                     notInString = false;
-                } else if (str == '\\'){
+                } else if (str == '\\') {
                     notInString = true;
                 } else if (str == '"') {
                     inString = false;
                 }
                 continue;
             }
-            if (str == '"') {
-                inString = true;
-                res.append(str);
-            } else if (str == '{' || str == '[') {
-                res.append(str);
-                brackets = brackets + 1;
-                res.append(newLine);
-                for (int j = 0; j < brackets; j++) {
-                    res.append(space);
-                }
-            } else if (str == '}' || str == ']') {
-                brackets = brackets - 1;
-                res.append(newLine);
-                for (int j = 0; j < brackets; j++) {
-                    res.append(space);
-                }
-                res.append(str);
-            } else if (str == ',') {
-                res.append(str);
-                res.append(newLine);
-                for (int j = 0; j < brackets; j++) {
-                    res.append(space);
-                }
-            } else if (str == ':') {
-                res.append(": ");
-            } else if (str == ' ' || str == '\t' || str == '\n' || str == '\r') {
-            } else {
-                res.append(str);
+
+            switch (str) {
+                case '"':
+                    inString = true;
+                    res.append(str);
+                    break;
+
+                case '{':
+                case '[':
+                    res.append(str);
+                    brackets = brackets + 1;
+                    res.append(newLine);
+                    for (int j = 0; j < brackets; j++) {
+                        res.append(space);
+                    }
+                    break;
+
+                case '}':
+                case ']':
+                    brackets = brackets - 1;
+                    res.append(newLine);
+                    for (int j = 0; j < brackets; j++) {
+                        res.append(space);
+                    }
+                    res.append(str);
+                    break;
+
+                case ',':
+                    res.append(str);
+                    res.append(newLine);
+                    for (int j = 0; j < brackets; j++) {
+                        res.append(space);
+                    }
+                    break;
+
+                case ':':
+                    res.append(": ");
+                    break;
+
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    break;
+                default:
+                    res.append(str);
             }
         }
-
         return res.toString();
     }
 }
